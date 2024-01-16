@@ -1,5 +1,5 @@
-const canvas = document.getElementById("myCanvas");
-const ctx = canvas.getContext("2d"); // robot that draws on the canvas
+const canvas = document.getElementById('myCanvas');
+const ctx = canvas.getContext('2d'); // robot that draws on the canvas
 
 let x = canvas.width / 2;// starting point for the ball
 let y = canvas.height - 30;// starting point for the ball
@@ -27,17 +27,12 @@ let score = 0;
 let lives = 3;
 
 const bricks = [];
-for (let c = 0; c < brickColumnCount; c++) {
+for (let c = 0; c < brickColumnCount; c += 1) {
   bricks[c] = [];
-  for (let r = 0; r < brickRowCount; r++) {
+  for (let r = 0; r < brickRowCount; r += 1) {
     bricks[c][r] = { x: 0, y: 0, status: 1 };
   }
 }
-
-document.addEventListener("keydown", keyDownHandler, false);
-document.addEventListener("keyup", keyUpHandler, false);
-document.addEventListener("mousemove", mouseMoveHandler, false);
-
 
 function mouseMoveHandler(e) {
   const relativeX = e.clientX - canvas.offsetLeft;
@@ -61,6 +56,10 @@ function keyUpHandler(e) {
       leftPressed = false;
     }
 }
+
+document.addEventListener('keydown', keyDownHandler, false);
+document.addEventListener('keyup', keyUpHandler, false);
+document.addEventListener('mousemove', mouseMoveHandler, false);
 
 function collisionDetection() {
     for (let c = 0; c < brickColumnCount; c++) {
