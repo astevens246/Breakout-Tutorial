@@ -1,13 +1,12 @@
 const canvas = document.getElementById('myCanvas');
 const ctx = canvas.getContext('2d'); // robot that draws on the canvas
+const ballRadius = 10;
 
+// these variables will change throughout so they are defined as let instead of const
 let x = canvas.width / 2;// starting point for the ball
 let y = canvas.height - 30;// starting point for the ball
 let dx = (Math.random() - 0.5) * 10; // Generate a random number between -5 and 5
 let dy = (Math.random() - 0.5) * 10; // Generate a random number between -5 and 5
-
-const ballRadius = 10;
-
 const paddleHeight = 10;
 const paddleWidth = 75;
 let paddleX = (canvas.width - paddleWidth) / 2;
@@ -64,7 +63,7 @@ document.addEventListener('mousemove', mouseMoveHandler, false);
 function collisionDetection() {
   for (let c = 0; c < brickColumnCount; c += 1) {
     for (let r = 0; r < brickRowCount; r += 1) {
-      const b = bricks[c][r];
+      const b = bricks[c][r]; // deconstruction could be applied here
       if (b.status === 1) {
         if (
           x > b.x
@@ -152,11 +151,23 @@ function draw() {
     if (x > paddleX && x < paddleX + paddleWidth) {
       dy = -dy;
     } else {
-      lives -= 1;
+      if (lives > 0) { // Only decrement lives if it's greater than 0
+        lives -= 1;
+      }
       if (!lives) {
         // eslint-disable-next-line no-alert
-        alert('GAME OVER');
-        document.location.reload();
+        ctx.font = '50px Arial';
+        ctx.fillStyle = 'black';
+        const text = 'GAME OVER';
+        const textWidth = ctx.measureText(text).width;
+        // eslint-disable-next-line no-shadow
+        const x = (canvas.width - textWidth) / 2;
+        // eslint-disable-next-line no-shadow
+        const y = canvas.height / 2;
+        ctx.fillText(text, x, y);
+        setTimeout(() => {
+          document.location.reload();
+        }, 30000); // Delay in milliseconds (e.g., 3000 milliseconds = 3 seconds)
       } else {
         x = canvas.width / 2;
         y = canvas.height - 30;
