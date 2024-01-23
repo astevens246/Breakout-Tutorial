@@ -1,3 +1,12 @@
+import Sprite from './Sprite.js';
+import Brick from './Brick.js';
+import Ball from './Ball.js';
+
+// Variables
+//---------------------------------------------
+const box = new Sprite(100, 50, 33, 44, 'blue');
+const ball = new Ball(1, 2, 3, 4, 10);
+
 const canvas = document.getElementById('myCanvas');
 const ctx = canvas.getContext('2d'); // robot that draws on the canvas
 const ballRadius = 10;
@@ -26,10 +35,20 @@ let score = 0;
 let lives = 3;
 
 const bricks = [];
-for (let c = 0; c < brickColumnCount; c += 1) {
-  bricks[c] = [];
-  for (let r = 0; r < brickRowCount; r += 1) {
-    bricks[c][r] = { x: 0, y: 0, status: 1 };
+initializeBricks();
+
+// Functions
+//---------------------------------------------
+
+
+function initializeBricks() {
+  for (let c = 0; c < brickColumnCount; c += 1) {
+    bricks[c] = [];
+    for (let r = 0; r < brickRowCount; r += 1) {
+      const brickX = c * (brickWidth + brickPadding) + brickOffsetLeft;
+      const brickY = r * (brickHeight + brickPadding) + brickOffsetTop;
+      bricks[c][r] = new Brick(brickX, brickY);
+    }
   }
 }
 
@@ -119,10 +138,7 @@ function drawBricks() {
   for (let c = 0; c < brickColumnCount; c += 1) {
     for (let r = 0; r < brickRowCount; r += 1) {
       if (bricks[c][r].status === 1) {
-        const brickX = c * (brickWidth + brickPadding) + brickOffsetLeft;
-        const brickY = r * (brickHeight + brickPadding) + brickOffsetTop;
-        bricks[c][r].x = brickX;
-        bricks[c][r].y = brickY;
+
         ctx.beginPath();
         ctx.rect(brickX, brickY, brickWidth, brickHeight);
         ctx.fillStyle = colors[r % colors.length]; // Use the row index to select a color
