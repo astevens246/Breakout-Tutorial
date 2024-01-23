@@ -40,14 +40,13 @@ initializeBricks();
 // Functions
 //---------------------------------------------
 
-
 function initializeBricks() {
   for (let c = 0; c < brickColumnCount; c += 1) {
     bricks[c] = [];
     for (let r = 0; r < brickRowCount; r += 1) {
       const brickX = c * (brickWidth + brickPadding) + brickOffsetLeft;
       const brickY = r * (brickHeight + brickPadding) + brickOffsetTop;
-      bricks[c][r] = new Brick(brickX, brickY);
+      bricks[c][r] = new Brick(brickX, brickY, brickWidth, brickHeight);
     }
   }
 }
@@ -116,14 +115,6 @@ function drawLives() {
   ctx.fillText(`Lives: ${lives}`, canvas.width - 65, 20);
 }
 
-function drawBall() {
-  ctx.beginPath();
-  ctx.arc(x, y, ballRadius, 0, Math.PI * 2);
-  ctx.fillStyle = 'black';
-  ctx.fill();
-  ctx.closePath();
-}
-
 function drawPaddle() {
   ctx.beginPath();
   ctx.rect(paddleX, canvas.height - paddleHeight, paddleWidth, paddleHeight);
@@ -137,14 +128,8 @@ function drawBricks() {
 
   for (let c = 0; c < brickColumnCount; c += 1) {
     for (let r = 0; r < brickRowCount; r += 1) {
-      if (bricks[c][r].status === 1) {
-
-        ctx.beginPath();
-        ctx.rect(brickX, brickY, brickWidth, brickHeight);
-        ctx.fillStyle = colors[r % colors.length]; // Use the row index to select a color
-        ctx.fill();
-        ctx.closePath();
-      }
+      const brick = bricks[c][r];
+      if (brick.status === 1) brick.render(ctx);
     }
   }
 }
@@ -152,7 +137,7 @@ function drawBricks() {
 function draw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   drawBricks();
-  drawBall();
+  ball.render(ctx);
   drawPaddle();
   drawScore();
   drawLives();
