@@ -1,6 +1,7 @@
 import Sprite from './Sprite.js';
 import Brick from './Brick.js';
 import Ball from './Ball.js';
+import Score from './Score.js';
 
 // Variables
 //---------------------------------------------
@@ -10,6 +11,10 @@ const ball = new Ball(1, 2, 3, 4, 10);
 const canvas = document.getElementById('myCanvas');
 const ctx = canvas.getContext('2d'); // robot that draws on the canvas
 const ballRadius = 10;
+const paddleHeight = 10;
+const paddleWidth = 75;
+const paddleXStart = (canvas.width - paddleWidth) / 2;
+const paddleYStart = canvas.height - paddleHeight;
 
 // these variables will change throughout so they are defined as let instead of const
 let x = canvas.width / 2;// starting point for the ball
@@ -40,21 +45,23 @@ initializeBricks();
 // Functions
 //---------------------------------------------
 
-function initializeBricks() {
-  for (let c = 0; c < brickColumnCount; c += 1) {
-    bricks[c] = [];
-    for (let r = 0; r < brickRowCount; r += 1) {
-      const brickX = c * (brickWidth + brickPadding) + brickOffsetLeft;
-      const brickY = r * (brickHeight + brickPadding) + brickOffsetTop;
-      bricks[c][r] = new Brick(brickX, brickY, brickWidth, brickHeight);
-    }
+function movePaddle() {
+  if (rightPressed && paddle.x < canvas.width - paddle.width) {
+    paddle.moveBy(7, 0);
+  } else if (leftPressed && paddle.x > 0) {
+    paddle.moveBy(-7, 0); }
+}
+
+function collisionsWithCanvasAndPaddle() {
+  if (ball.x + ball.dx > canvas.width - ball.radius || ball.x + ball.dx < ball.radius) {
+    ball.dx = -ball.dx;
   }
 }
 
 function mouseMoveHandler(e) {
   const relativeX = e.clientX - canvas.offsetLeft;
   if (relativeX > 0 && relativeX < canvas.width) {
-    paddleX = relativeX - paddleWidth / 2;
+    paddle.moveTo(relativeX - paddle.width / 2, paddleYStart)
   }
 }
 
@@ -79,9 +86,9 @@ document.addEventListener('keyup', keyUpHandler, false);
 document.addEventListener('mousemove', mouseMoveHandler, false);
 
 function collisionDetection() {
-  for (let c = 0; c < brickColumnCount; c += 1) {
-    for (let r = 0; r < brickRowCount; r += 1) {
-      const b = bricks[c][r]; // deconstruction could be applied here
+  for (let c = 0; c < bricks.cols; c += 1) {
+    for (let r = 0; r < bricks.rows; r += 1) {
+      const brick = bricks.bricks[c][r]; // deconstruction could be applied here
       if (b.status === 1) {
         if (
           x > b.x
@@ -115,34 +122,26 @@ function drawLives() {
   ctx.fillText(`Lives: ${lives}`, canvas.width - 65, 20);
 }
 
-function drawPaddle() {
-  ctx.beginPath();
-  ctx.rect(paddleX, canvas.height - paddleHeight, paddleWidth, paddleHeight);
-  ctx.fillStyle = 'orange';
-  ctx.fill();
-  ctx.closePath();
-}
-
-function drawBricks() {
-  const colors = ['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet']; // Add as many colors as you have rows
-
-  for (let c = 0; c < brickColumnCount; c += 1) {
-    for (let r = 0; r < brickRowCount; r += 1) {
-      const brick = bricks[c][r];
-      if (brick.status === 1) brick.render(ctx);
-    }
-  }
-}
-
 function draw() {
+  // Clear the canvas
+  // canvas.width, and canvas.height might be better as constants
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  drawBricks();
+  // Call helper functions 
+  bricks.render(ctx);
   ball.render(ctx);
-  drawPaddle();
+  paddle.render(ctx);
   drawScore();
   drawLives();
   collisionDetection();
+  ball.move();
+  movePaddle();
+  collisionsWithCanvasAndPaddle();
 
+  //Draw the screen again
+  requestAnimationFrame(draw);
+}
+
+function collisionsWithCanvasAndPaddle() {
   if (x + dx > canvas.width - ballRadius || x + dx < ballRadius) {
     dx = -dx;
   }

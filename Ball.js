@@ -7,6 +7,10 @@ class Ball {
     this.radius = radius;
     this.color = color;
   }
+  move() {
+    this.x += this.dx;
+    this.y += this.dy;  
+  }
 
   render(ctx) {
     ctx.beginPath();
