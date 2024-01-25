@@ -1,8 +1,3 @@
-import {
-  paddleXStart, paddleYStart, paddleWidth, paddleHeight,
-// eslint-disable-next-line import/extensions
-} from './main.js';
-
 class Paddle {
   constructor(x, y, width, height, color = 'red') {
     this.x = x;
@@ -32,3 +27,5 @@ class Paddle {
 }
 
 const paddle = new Paddle(paddleXStart, paddleYStart, paddleWidth, paddleHeight);
+
+export default Paddle;

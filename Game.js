@@ -1,2 +1,2 @@
-// draw method and game loop 
+// draw method and game loop
 // single object that runs the game
