@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/extensions
 import Sprite from './Sprite.js';
 
 class Brick extends Sprite {
@@ -9,7 +10,7 @@ class Brick extends Sprite {
   render(ctx) {
     ctx.beginPath();
     ctx.rect(this.x, this.y, this.width, this.height);
-    ctx.fillStyle = colors[r % colors.length]; // Use the row index to select a color
+    ctx.fillStyle = this.color; // Use the row index to select a color
     ctx.fill();
     ctx.closePath();
   }

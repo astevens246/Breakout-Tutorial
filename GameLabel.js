@@ -16,7 +16,7 @@ class GameLabel {
 }
 
 const scoreLabel = new GameLabel('Score: ', 8, 20, '#0095DD');
-const livesLabel = new GameLabel('Lives: ', canvas.width - 65, 20, 'red');
+const livesLabel = new GameLabel('Lives: ', 480 - 65, 20, 'red');
 livesLabel.value = 3;
 
 export default GameLabel;

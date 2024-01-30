@@ -26,6 +26,6 @@ class Paddle {
   }
 }
 
-const paddle = new Paddle(paddleXStart, paddleYStart, paddleWidth, paddleHeight);
+// const paddle = new Paddle(paddleXStart, paddleYStart, paddleWidth, paddleHeight);
 
 export default Paddle;
