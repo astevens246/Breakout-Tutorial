@@ -1,3 +1,4 @@
+/* eslint-disable no-alert */
 /* eslint-disable import/extensions */
 import Ball from './Ball.js';
 import Paddle from './Paddle.js';
@@ -117,6 +118,7 @@ class Game {
     }
   }
 
+  // eslint-disable-next-line no-unused-vars
   collisionsWithCanvasAndPaddle(ctx) {
     if (this.ball.x + this.ball.dx > this.canvas.width - this.ball.radius
          || this.ball.x + this.ball.dx < this.ball.radius) {
