@@ -129,20 +129,11 @@ class Game {
       if (this.ball.x > this.paddle.x && this.ball.x < this.paddle.x + this.paddle.width) {
         this.ball.dy = -this.ball.dy;
       } else {
-        if (this.lives > 0) {
-          this.livesLabel.value -= 1;
-        }
+        this.livesLabel.value -= 1;
+
         if (this.livesLabel.value === 0) {
-          ctx.font = '50px Arial';
-          ctx.fillStyle = 'black';
-          const text = 'GAME OVER';
-          const textWidth = ctx.measureText(text).width;
-          const x = (this.canvas.width - textWidth) / 2;
-          const y = this.canvas.height / 2;
-          ctx.fillText(text, x, y);
-          setTimeout(() => {
-            document.location.reload();
-          }, 30000);
+          alert('GAME OVER');
+          document.location.reload();
         } else {
           this.ball.x = this.canvas.width / 2;
           this.ball.y = this.canvas.height - 30;
