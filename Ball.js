@@ -1,23 +1,23 @@
-class Ball {
+/* eslint-disable import/extensions */
+import Sprite from './Sprite.js';
+
+class Ball extends Sprite {
   constructor(x = 0, y = 0, dx = 2, dy = -1, radius = 10, color = '#red') {
-    this.x = x;
-    this.y = y;
+    super(x, y, radius * 2, radius * 2, color);
     this.dx = dx;
     this.dy = dy;
     this.radius = radius;
-    this.color = color;
     this.PI2 = Math.PI * 2;
   }
 
   move() {
-    this.x += this.dx;
-    this.y += this.dy;
+    this.moveBy(this.dx, this.dy);
   }
 
   render(ctx) {
     ctx.beginPath();
-    ctx.arc(this.x, this.y, this.Radius, 0, this.PI2);
-    ctx.fillStyle = 'black';
+    ctx.arc(this.x, this.y, this.radius, 0, this.PI2);
+    ctx.fillStyle = this.color;
     ctx.fill();
     ctx.closePath();
   }

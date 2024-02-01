@@ -7,6 +7,8 @@ import GameLabel from './GameLabel.js';
 // ----------------------------------------------------
 // Game
 //-----------------------------------------------------
+
+// use sprite somewhere in your code
 class Game {
   constructor(canvasId) {
     this.canvas = document.getElementById(canvasId);
@@ -25,7 +27,6 @@ class Game {
     this.paddleXStart = (this.canvas.width - this.paddleWidth) / 2;
     this.paddleYStart = this.canvas.height - this.paddleHeight;
     this.objectColor = '#0095DD';
-
     this.gameOverMessage = 'Game Over';
 
     this.ball = new Ball(0, 0, 2, -2, this.ballRadius, this.objectColor);
@@ -51,7 +52,7 @@ class Game {
 
     // cols, rows, width, height, padding, offsetLeft, offsetTop, color
 
-    this.scoreLabel = new GameLabel('Score: ', 8, 20, '#0095DD');
+    this.scoreLabel = new GameLabel('Score: ', 8, 20, this.objectcolor);
     this.livesLabel = new GameLabel('Lives: ', this.canvas.width - 65, 20, 'red');
 
     this.rightPressed = false;
@@ -86,21 +87,19 @@ class Game {
   collisionDetection() {
     for (let c = 0; c < this.bricks.cols; c += 1) {
       for (let r = 0; r < this.bricks.rows; r += 1) {
-        const brick = this.bricks.bricks[c][r]; // deconstruction could be applied here
+        const brick = this.bricks.bricks[c][r];
         if (brick.status === 1) {
           if (
-            this.ball.x > brick.x
-                        && this.ball.x < brick.x + brick.width
-                        && this.ball.y > brick.y
-                        && this.ball.y < brick.y + brick.height
+            this.ball.x + this.ball.radius > brick.x
+            && this.ball.x - this.ball.radius < brick.x + brick.width
+            && this.ball.y + this.ball.radius > brick.y
+            && this.ball.y - this.ball.radius < brick.y + brick.height
           ) {
             this.ball.dy = -this.ball.dy;
             brick.status = 0;
-
             this.scoreLabel.value += 1;
 
             if (this.scoreLabel.value === this.bricks.cols * this.bricks.rows) {
-              // eslint-disable-next-line no-alert
               alert('YOU WIN, CONGRATULATIONS!');
               document.location.reload();
             }
@@ -108,7 +107,7 @@ class Game {
         }
       }
     }
-  }// End Collision Detection
+  }
 
   movePaddle() {
     if (this.rightPressed && this.paddle.x < this.canvas.width - this.paddle.width) {

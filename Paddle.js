@@ -1,10 +1,9 @@
-class Paddle {
+/* eslint-disable import/extensions */
+import Sprite from './Sprite.js';
+
+class Paddle extends Sprite {
   constructor(x, y, width, height, color = 'red') {
-    this.x = x;
-    this.y = y;
-    this.width = width;
-    this.height = height;
-    this.color = color;
+    super(x, y, width, height, color);
   }
 
   moveBy(dx, dy) {
@@ -15,14 +14,6 @@ class Paddle {
   moveTo(x, y) {
     this.x = x;
     this.y = y;
-  }
-
-  render(ctx) {
-    ctx.beginPath();
-    ctx.rect(this.x, this.y, this.width, this.height);
-    ctx.fillStyle = this.color;
-    ctx.fill();
-    ctx.closePath();
   }
 }
 
