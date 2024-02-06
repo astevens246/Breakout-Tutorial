@@ -2,16 +2,19 @@
 import Sprite from './Sprite.js';
 
 class Paddle extends Sprite {
-  constructor(x, y, width, height, color = 'red') {
+  x: number;
+  width: number;
+  y: any;
+  constructor(x: number, y: number, width: number, height: number, color = 'red') {
     super(x, y, width, height, color);
   }
 
-  moveBy(dx, dy) {
+  moveBy(dx: number, dy: number) {
     this.x += dx;
     this.y += dy;
   }
 
-  moveTo(x, y) {
+  moveTo(x: number, y: number) {
     this.x = x;
     this.y = y;
   }

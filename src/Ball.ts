@@ -2,6 +2,13 @@
 import Sprite from './Sprite.js';
 
 class Ball extends Sprite {
+  x: number;
+  y: number;
+  dx: number;
+  dy: number;
+  radius: number;
+  PI2: number;
+  color: string | CanvasGradient | CanvasPattern;
   constructor(x = 0, y = 0, dx = 2, dy = -1, radius = 10, color = '#red') {
     super(x, y, radius * 2, radius * 2, color);
     this.dx = dx;
@@ -14,7 +21,7 @@ class Ball extends Sprite {
     this.moveBy(this.dx, this.dy);
   }
 
-  render(ctx) {
+  render(ctx: CanvasRenderingContext2D) {
     ctx.beginPath();
     ctx.arc(this.x, this.y, this.radius, 0, this.PI2);
     ctx.fillStyle = this.color;
